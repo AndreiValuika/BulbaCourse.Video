@@ -14,7 +14,7 @@ namespace BulbaCourse.Video.Models
         public string Password { get; set; }
         public string Email { get; set; }
         public string AvatarPath { get; set; }
-        public int SubscriptionType { get; set; }
+        public Subscription SubscriptionType { get; set; }
         public DateTime SubscriptionStartDate { get; set; }
         public DateTime SubscriptionEndDate { get; set; }
 

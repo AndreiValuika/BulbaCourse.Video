@@ -8,6 +8,7 @@ namespace BulbaCourse.Video.Models
     public class Video
     {
         public string VideoId { get; set; }
+        public string Name { get; set; }
         public int Duration { get; set; }
         public DateTime Created { get; set; }
         public int NumberOfViews { get; set; }
