@@ -93,7 +93,9 @@
     </Compile>
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\CourseLevel.cs" />
     <Compile Include="Models\Role.cs" />
+    <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\Tag.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Models\User.cs" />
