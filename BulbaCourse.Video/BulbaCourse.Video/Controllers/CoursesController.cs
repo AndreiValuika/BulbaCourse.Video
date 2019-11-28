@@ -7,32 +7,83 @@ using System.Web.Http;
 
 namespace BulbaCourse.Video.Controllers
 {
+    [RoutePrefix("api/course")]
     public class CoursesController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        [HttpGet,Route("{id}")]
+        public IHttpActionResult Get(string id)
         {
-            return new string[] { "value1", "value2" };
+            if (string.IsNullOrEmpty(id) || !Guid.TryParse(id, out var _))  
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var result = Repositories.CoursesRep.GetById(id);
+                return result == null ? NotFound() : (IHttpActionResult)Ok(result); 
+            }
+            catch (InvalidOperationException ex)
+            {
+                return InternalServerError(ex);
+            }
+            
+        }
+        
+        [HttpGet, Route("")]
+        public IHttpActionResult GetAll()
+        {
+            return Ok(Repositories.CoursesRep.GetAll());
         }
 
-        // GET api/<controller>/5
-        public string Get(int id)
+        [HttpPost, Route("")]
+        public IHttpActionResult Post([FromBody]Models.Course course)
         {
-            return "value";
+            if (course==null ||!Enum.IsDefined(typeof(Models.CourseLevel), course.Level))
+            {
+                return BadRequest();
+            } 
+
+            try
+            {
+               var id = Repositories.CoursesRep.Add(course);
+               return Ok(id);
+            }
+
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
+        [HttpPut, Route("{id}")]
+        public IHttpActionResult Put(string id, [FromBody]Models.Course course)
         {
+            if (string.IsNullOrEmpty(id) || !Guid.TryParse(id, out var _))
+            {
+                return BadRequest();
+            }
+
+            course.CourseId = id;
+
+            if (course == null || !Enum.IsDefined(typeof(Models.CourseLevel), course.Level))
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                Repositories.CoursesRep.Add(course);
+                return Ok();
+            }
+
+            catch (Exception ex)
+            {
+                return InternalServerError(ex);
+            }
         }
 
-        // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
-        {
-        }
-
-        // DELETE api/<controller>/5
-        public void Delete(int id)
+        [HttpDelete,Route("{id}")]
+        public void Delete(string id)
         {
         }
     }
