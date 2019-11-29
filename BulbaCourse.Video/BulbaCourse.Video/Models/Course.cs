@@ -23,7 +23,7 @@ namespace BulbaCourse.Video.Models
         public int Duration { get; set; }
         public double Price { get; set; }
 
-        public ICollection<Video> Videos { get; set; }
+        public IList<VideoItem> Videos { get; set; }
         public ICollection<Comment> Comments { get; set; }
         public ICollection<Tag> Tags { get; set; }
     }

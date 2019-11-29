@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BulbaCourse.Video.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,10 +8,11 @@ using System.Web.Http;
 
 namespace BulbaCourse.Video.Controllers
 {
+    [RoutePrefix("api/course/{courseId}/video")]
     public class VideoController : ApiController
     {
-        // GET api/<controller>
-        public IEnumerable<string> Get()
+        [HttpGet,Route("")]
+        public IEnumerable<string> Get(string courseId)
         {
             return new string[] { "value1", "value2" };
         }
@@ -21,18 +23,28 @@ namespace BulbaCourse.Video.Controllers
             return "value";
         }
 
-        // POST api/<controller>
-        public void Post([FromBody]string value)
+        
+        [HttpPost, Route("")]
+        public IHttpActionResult Post(string courseId,[FromBody]Models.VideoItem videoItem)
         {
+            videoItem.VideoId = Guid.NewGuid().ToString();
+            videoItem.Created = DateTime.Now;
+
+            if (string.IsNullOrEmpty(courseId) || !Guid.TryParse(courseId, out var _))
+            {
+                return BadRequest();
+            }
+
+            return Ok(Repositories.CoursesRep.AddVideo(courseId, videoItem));
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody]string value)
+        public void Put(string courseId,[FromUri]string videoId,[FromBody]VideoItem videoItem)
         {
         }
 
         // DELETE api/<controller>/5
-        public void Delete(int id)
+        public void Delete(string courseId,string videoId)
         {
         }
     }

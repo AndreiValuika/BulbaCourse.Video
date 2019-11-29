@@ -5,7 +5,7 @@ using System.Web;
 
 namespace BulbaCourse.Video.Models
 {
-    public class Video
+    public class VideoItem
     {
         public string VideoId { get; set; }
         public string Name { get; set; }

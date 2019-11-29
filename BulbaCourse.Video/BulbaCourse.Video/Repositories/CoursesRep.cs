@@ -11,7 +11,8 @@ namespace BulbaCourse.Video.Repositories
             new Course()
             {
                 Name = "Course_1",
-                Level=CourseLevel.None
+                Level=CourseLevel.None,
+                Videos=new List<VideoItem>(),
             },
 
             new Course()
@@ -39,6 +40,7 @@ namespace BulbaCourse.Video.Repositories
             }
         };
 
+
         public static Course GetById(string id)
         {
             return _courses.SingleOrDefault(b => b.CourseId.Equals(id, StringComparison.OrdinalIgnoreCase));
@@ -53,6 +55,19 @@ namespace BulbaCourse.Video.Repositories
         {
             _courses.Add(course);
             return course;
+        }
+
+        public static List<VideoItem> GetAllVideo(string courseId) 
+        {
+            var temp = _courses.FirstOrDefault(x => x.CourseId.Equals(courseId, StringComparison.OrdinalIgnoreCase));
+            return null;
+            //return temp.Videos.as
+        }
+        public static VideoItem AddVideo(string courseId, VideoItem videoItem)
+        {
+            var course = _courses.FirstOrDefault(x => x.CourseId.Equals(courseId, StringComparison.OrdinalIgnoreCase));
+            course.Videos.Add(videoItem);
+            return videoItem;
         }
 
         public static Course Update(Course course)
